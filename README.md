@@ -1,11 +1,11 @@
 # Universidad Tecnológica Nacional - FRC
-## Ingenieria de Software - 2020
-### *Grupo N° 5* - TP N° 5
+## Ingenieria de Software - 4K4 - 2020
+### *Grupo N° 5* - TP N° 5 
 
 ### Estructura del repositorio
 
 ```
-2020-UTN-FRC-ISW-4K2-G5-TP5
+2020-UTN-FRC-ISW-4K4-G5-TP5
 ├── Material de cátedra
 │   ├── Documentos
 │   ├── Filminas
