@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="js/loquesea.module.js">
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Pedir Lo que sea</title>
+</head>
+
+<body ng-app="LoQueSeaModule" ng-controller="LoQueSeaController">
+
+  <div class="container" ng-show="!pedidoEnviado" ng-show="!pedidoEnviado">
+
+    <div class="row">
+      <div class="col-sm-12 header">
+        <img src="img/logo.png" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 title">
+        Pedir lo que sea
+      </div>
+    </div>
+
+    <form name="formLoQueSea" ng-model="formLoQueSea">
+
+      <div class="form-group block-form">
+        <h1>Detalle de pedido</h1>
+        <h3>¿Qué necesitas?</h3>
+        <textarea name="detallePedido" rows="8" ng-model="detallePedido" required></textarea>
+        <h6 style="color:red" ng-show="formLoQueSea.detallePedido.$touched && formLoQueSea.detallePedido.$invalid">
+          Obligatorio</h6>
+      </div>
+
+      <div class="form-group block-form">
+        <h1>Foto del artículo (opcional)</h1>
+        <h3>Para guiar al cadete</h3>
+
+        <label class="button-Select" for="upload-photo">Adjuntar imagen
+        </label>
+        <input type="file" name="photo" id="upload-photo" accept="image/jpeg" />
+
+        <div id="contImg">
+        </div>
+
+      </div>
+
+      <div class="block-form">
+        <h1>Dirección del comercio</h1>
+        <h3>Lugar exacto donde el cadete lo busca</h3>
+
+
+        <label for="">Calle</label>
+        <input type="text" name="calleComercio" value="" ng-model="calleComercio" ng-keyup="obtenerCoordenadasComercio()" required>
+        <h6 style="color:red" ng-show="formLoQueSea.calleComercio.$touched && formLoQueSea.calleComercio.$invalid">
+          Obligatorio</h6>
+
+        <label for="" class="">Altura</label>
+        <input type="text" name="alturaComercio" value="" ng-model="alturaComercio" ng-keyup="obtenerCoordenadasComercio()" required pattern="^[0-9]*$" maxlength="4">
+        <h6 style="color:red" ng-show="formLoQueSea.alturaComercio.$touched && formLoQueSea.alturaComercio.$invalid">
+          Obligatorio - Solo números</h6>
+        
+        <div class="form-group">
+          <label for="" class="">Ciudad</label>
+          <select class="form-control" ng-model="locSelectedComercio" ng-change="obtenerCoordenadasComercio()">
+                   <option  ng-selected="locSelectedComercio == localidad" ng-click="obtenerCoordenadasComercio()" ng-repeat="localidad in localidades" ng-value="localidad">{{localidad}}</option>
+          </select>
+          <h6 style="color:red" ng-show="formLoQueSea.ciudadComercio.$error.required && formLoQueSea.$submitted">
+            Obligatorio</h6>
+
+          <br><br>
+
+          <div id="googleMap" style="width:100%;height:400px;"></div>
+
+        </div>
+
+        <label for="" class="">Referencia (opcional)</label>
+        <textarea name="name" rows="8" ng-model="referenciaOpcComercio"></textarea>
+
+      </div>
+
+
+      <div class="block-form">
+        <h1>Dirección de entrega</h1>
+        <h3>Lugar exacto donde lo recibirás el pedido</h3>
+        <label for="">Calle</label>
+        <input type="text" name="calleEntrega" value="" ng-model="calleEntrega" required>
+        <h6 style="color:red" ng-show="formLoQueSea.calleEntrega.$touched && formLoQueSea.calleEntrega.$invalid">
+          Obligatorio</h6>
+
+        <label for="" class="">Altura</label>
+        <input type="text" name="alturaEntrega" value="" ng-model="alturaEntrega" required pattern="^[0-9]*$"maxlength="4">
+        <h6 style="color:red" ng-show="formLoQueSea.alturaEntrega.$touched && formLoQueSea.alturaEntrega.$invalid">
+          Obligatorio - Solo números</h6>
+         
+        <label for="" class="">Piso</label>
+        <input type="text" name="pisoEntrega" value="" ng-model="pisoEntrega" required pattern="^[0-9]*$"maxlength="4">
+        <h6 style="color:red" ng-show="formLoQueSea.pisoEntrega.$touched && formLoQueSea.pisoEntrega.$invalid">
+          Obligatorio - Solo números</h6>
+        
+        <label for="" class="">depto</label>
+        <input type="text" name="pisoEntrega" value="" ng-model="deptoEntrega" required >
+        <h6 style="color:red" ng-show="formLoQueSea.deptoEntrega.$touched && formLoQueSea.deptoEntrega.$invalid">
+          Obligatorio - Solo números</h6>    
+        
+      
+        <div class="form-group">
+          <label for="" class="">Ciudad</label>
+
+          <select class="form-control" ng-model="locSelectedEntrega">
+                   <option ng-selected="locSelectedEntrega == localidad" ng-repeat="localidad in localidades" ng-value="localidad">{{localidad}}</option>
+          </select>
+
+          <h6 style="color:red" ng-show="formLoQueSea.ciudadEntrega.$error.required && formLoQueSea.$submitted">
+            Obligatorio</h6>
+        </div>
+
+        <label for="" class="">Referencia (opcional)</label>
+        <textarea name="name" rows="8" ng-model="referenciaOpcEntrega"></textarea>
+      </div>
+
+      <div class="block-form">
+        <h1>Momento de entrega</h1>
+        <h3>¿Cuándo quieres recibirlo?</h3>
+        <div ng-class="{'button-Select' : 'true', 'border' : momentoEntrega == 'A'}" ng-model="momentoLoAntesPosible"
+          ng-click="momentoEntrega='A';momentoEntregaElegido='S'">Lo antes posible
+        </div>
+        <div ng-class="{'button-Select' : 'true', 'border' : momentoEntrega == 'P'}" ng-model="momentoProgramado"
+          ng-click="momentoEntrega='P';momentoEntregaElegido='S'">Programar hora
+        </div>
+        <div class="formAdicional" ng-if="momentoEntrega == 'P'">
+          <label for="" class="">Hora</label>
+          <input type="time" name="hora" ng-model="hora" value="" class="border" required>
+
+          <label for="" class="">Fecha</label>
+          <input type="date" name="fecha" ng-model="fecha" value="" class="border" required>
+        </div>
+
+        <h6 style="color:red" ng-show="(momentoEntrega == 'P') && ((formLoQueSea.hora.$invalid || formLoQueSea.fecha.$invalid)&&(formLoQueSea.fecha.$dirty || formLoQueSea.hora.$dirty))">
+          Debe ingresar una fecha y hora valida</h6>
+
+
+      </div>
+
+      <div class="block-form">
+        <h1>Datos de pago</h1>
+        <h3>¿Cómo deseas pagarlo?</h3>
+        <div ng-class="{'button-Select' : 'true', 'border' : metodoPago == 'E'}" ng-model="metodoEfectivo"
+          ng-click="metodoPago='E';pagoElegido='S'">Efectivo
+        </div>
+        <div class="formAdicional" ng-if="metodoPago == 'E'">
+          <label for="" class="">Monto con el que vas abonar</label>
+          <input style="width: 76px" type="text" name="montoEfectivo" ng-model="montoEfectivo" value="" required pattern=^[1-9]\d*$>
+          <h6 style="color:red" ng-show="(metodoPago == 'E') && formLoQueSea.montoEfectivo.$invalid && formLoQueSea.montoEfectivo.$dirty">
+            Ingrese un monto valido</h6>
+        </div>
+        <div ng-class="{'button-Select' : 'true', 'border' : metodoPago == 'T'}" ng-model="metodoTarjeta"
+          ng-click="metodoPago='T';pagoElegido='S'">Tarjeta VISA
+        </div>
+
+        <div class="formAdicional" ng-if="metodoPago == 'T'">
+          <label for="">Número de tarjeta</label>
+          <input type="text" ng-model="num_tarjeta" name="num_tarjeta" value="" required pattern="^4[0-9]{12}(?:[0-9]{3})?$" maxlength="16">
+          <h6 style="color:red" ng-show="(metodoPago == 'T') && formLoQueSea.num_tarjeta.$invalid && formLoQueSea.num_tarjeta.$dirty">
+            Incorrecto</h6>
+          <label for="">Nombre y apellido del titular</label>
+          <input type="text" name="n_a_titular" ng-model="n_a_titular" value="" required>
+          <h6 style="color:red" ng-show="(metodoPago == 'T') && formLoQueSea.n_a_titular.$invalid && formLoQueSea.n_a_titular.$dirty">
+            Obligatorio</h6>
+          <label for="" class="">Fecha de vencimiento</label>
+          <input style="width: 100px" placeholder="mm/yyyy" type="text" name="fecha_venc" ng-model="fecha_venc" value="" required
+            pattern="(((0)[0-9])|((1)[0-2]))(\/)\d{4}$" maxlength="7" minlength="7">
+            <h6 style="color:red" ng-show="(metodoPago == 'T') && formLoQueSea.fecha_venc.$invalid &&formLoQueSea.fecha_venc.$dirty">
+              Incorrecto</h6>
+          <label for="" class="">Código de seguridad</label>
+          <input style="width: 100px" type="text" name="cod_seg" ng-model="cod_seg" value="" required pattern="[0-9]\d\d" maxlength="3">
+          <h6 style="color:red" ng-show="(metodoPago == 'T') && formLoQueSea.cod_seg.$invalid && formLoQueSea.cod_seg.$dirty">
+            Incorrecto</h6>
+        </div>
+
+      </div>
+
+      <button class="button-Select enviar" type="submit" ng-click="enviarPedido()" ng-model="btnEnviar" ng-disabled="formLoQueSea.$invalid || pagoElegido == 'N' || momentoEntregaElegido =='N'">
+        Enviar pedido
+      </button>
+
+    </form>
+
+    <div class="row">
+      <div class="col-sm-12 footer">
+        <img src="img/delivery.gif" />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="enviado" ng-show="pedidoEnviado">
+        PEDIDO ENVIADO <img src="img/check.jpg" alt="">
+  </div>
+
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXyvj1gciImloP9kRCE-dBU-YOtqYn-zI&callback=myMap"></script>
+    
+</body>
+
+</html>
