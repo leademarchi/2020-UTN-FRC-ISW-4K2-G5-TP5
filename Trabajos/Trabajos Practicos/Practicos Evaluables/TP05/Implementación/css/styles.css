@@ -1,0 +1,183 @@
+.header{
+  margin: 20px;
+}
+.footer img{
+  position: relative;
+  animation-name: motito;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes motito {
+  0%   {left:0px; top:0px;}
+  50% {left:100px; top:0px;}
+  75% {left:50px; top:0px;}
+  90% {left:20px; top:0px;}
+  100% {left:0px; top:0px;}
+}
+
+.block-form{
+  border-bottom: 1px solid #c1c1c1;
+  padding-bottom: 25px;
+  padding-top: 25px;
+}
+
+.block-form h1,
+.block-form h3,
+.block-form label{
+  margin-left: 12px
+}
+
+.block-form h1{
+  font-size: 22px
+}
+
+.block-form h3{
+  font-size: 14px
+}
+
+.block-form textarea,
+.block-form input[type=text]{
+  margin: 10px;
+  outline: none;
+  border: 1px solid #c1c1c1;
+  resize: none;
+  border-radius: 6px;
+  padding: 7px;
+}
+
+.block-form textarea{
+  width: calc(100% - 62px);
+  height: 100px;
+  padding: 20px;
+}
+
+.block-form label{
+  margin-r
+}
+
+.title{
+  font-size: 35px
+}
+
+.title-block{
+  font-size: 22px
+}
+
+.subtitle-block{
+  font-size: 14px
+}
+
+.button-Select{
+  border: 1px solid #c1c1c1;
+  border-radius: 10px;
+  margin: 30px 10% 0px 10%;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer
+}
+
+label.button-Select{
+  display: inline-block;
+  width: calc(100% - 114px);
+}
+
+.button-Select.enviar{
+  background-color: #c43ac4;
+  color: #fff;
+  margin-bottom: 25px;
+  font-size: 25px;
+
+}
+
+.button-Select.Aceptar{
+  background-color: #c43ac4;
+  color: #fff;
+  margin-bottom: 25px;
+  font-size: 25px;
+
+}
+
+.button-Select.enviar[disabled]{
+  background-color: grey;
+  color: #fff;
+  margin-bottom: 25px;
+  font-size: 25px;
+
+}
+
+.button-Select.enviar .ng-disabled{
+  background-color: grey;
+  color: #fff;
+  margin-bottom: 25px
+}
+
+.border{
+  background-color: #e9e9e9;
+  border-style: solid !important;
+  border-color: #c43ac4 !important;
+  border-radius: 10px;
+}
+
+
+#upload-photo {
+  width: 0.1px;
+  	height: 0.1px;
+  	opacity: 0;
+  	overflow: hidden;
+  	position: absolute;
+  	z-index: -1;
+}
+
+#contImg{
+  margin: 15px;
+}
+
+.formAdicional{
+  margin-top: 20px;
+  margin-left: 10px
+}
+
+.button-Select.enviar.ng-disabled{
+  background-color: grey;
+}
+
+.enviado{
+  position: absolute;
+  top: 73%;
+  left: 50%;
+  margin-left: -133px;
+  margin-top: -150px;
+  padding: 5px;
+  font-size: 21px;
+}
+
+.enviado img{
+  width: 100px;
+}
+
+.modal-activo {
+  position: absolute;
+  left: 0;
+  z-index: 2000;
+  margin: 0;
+  padding: 100px 15%;
+  width: 50%;
+  overflow: hidden;
+  border-radius: 0;
+  background-color: #e9e9e9;
+  float: left;
+}
+
+.modal-confirPedido {
+  margin: 0;
+  padding: 0;
+  width: 16.60%;
+  height: auto;
+  overflow: hidden;
+  transition: all 0.1%;
+  float: left;
+}
