@@ -18,12 +18,13 @@
     crossorigin="anonymous"></script>
   <script src="js/loquesea.module.js">
   </script>
+  
   <link rel="stylesheet" href="css/styles.css">
   <title>Pedir Lo que sea</title>
 </head>
 
 <body ng-app="LoQueSeaModule" ng-controller="LoQueSeaController">
-
+ 
   <div class="container" ng-show="!pedidoEnviado" ng-show="!pedidoEnviado">
 
     <div class="row">
@@ -146,10 +147,11 @@
         </div>
         <div class="formAdicional" ng-if="momentoEntrega == 'P'">
           <label for="" class="">Hora</label>
-          <input type="time" name="hora" ng-model="hora" value="" class="border" required>
+          <input type="time" name="hora" ng-keyup="verificarHora()" ng-model="hora" value="" class="border" required>
 
           <label for="" class="">Fecha</label>
-          <input type="date" name="fecha" ng-model="fecha" value="" class="border" required>
+          
+          <input type="date" name="fecha" min="2020-05-12" ng-model="fecha" value="" class="border" required>
         </div>
 
         <h6 style="color:red" ng-show="(momentoEntrega == 'P') && ((formLoQueSea.hora.$invalid || formLoQueSea.fecha.$invalid)&&(formLoQueSea.fecha.$dirty || formLoQueSea.hora.$dirty))">
@@ -196,9 +198,11 @@
 
       </div>
 
-      <button class="button-Select enviar" type="submit" ng-click="enviarPedido()" ng-model="btnEnviar" ng-disabled="formLoQueSea.$invalid || pagoElegido == 'N' || momentoEntregaElegido =='N'">
+      <button class="button-Select enviar" type="submit" ng-click="enviarPedido()" ng-model="btnEnviar" ng-disabled=" pagoElegido == 'N' || momentoEntregaElegido =='N'">
         Enviar pedido
       </button>
+
+      <script>alert(fechaActual)</script>
 
     </form>
 
@@ -211,8 +215,11 @@
   </div>
 
   <div class="enviado" ng-show="pedidoEnviado">
-        PEDIDO ENVIADO <img src="img/check.jpg" alt="">
+    PEDIDO ENVIADO <img src="img/check.jpg" alt="">
+    <input class="button-Select enviar" type="button" value="Aceptar" onclick="location.reload()"/>      
   </div>
+
+  <h1></h1>
 
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXyvj1gciImloP9kRCE-dBU-YOtqYn-zI&callback=myMap"></script>
